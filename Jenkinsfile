@@ -5,39 +5,46 @@ pipeline {
     environment {
         PYPI_CREDENTIALS = credentials("pypi-credentials")
     }
-    
+
     stages {
-        stage('Build') {
+        stage('Init-dev') {
             steps {
-                dir('python-app-example') {
+                dir('infraestructura') {
                     sh 'pip install -r requirements.txt'
                 }
             }
         }
-        stage('Unit Test') {
+        stage('Plan-dev') {
             steps {
-                dir('python-app-example') {
+                dir('infraestructura') {
                     sh 'python -m coverage run -m pytest -s -v'
                 }
             }
         }
-        stage('Coverage') {
+        stage('Apply-dev') {
             steps {
-                dir('python-app-example') {
+                dir('infraestructura') {
                     sh 'python -m coverage report -m --fail-under=90'
                 }
             }
         }
-        stage('Package'){
+        stage('Init-prod'){
             steps {
-                dir('python-app-example') {
+                dir('infraestructura') {
                     sh 'python -m build'
                 }
             }
         }
-         stage('Publish'){
+        stage('Plan-prod'){
             steps {
-                dir('python-app-example') {
+                dir('infraestructura') {
+                    sh 'python -m build'
+                }
+            }
+        }
+         stage('Apply-prod'){
+            steps {
+                dir('infraestructura') {
                     timeout(time: 10, unit: 'MINUTES'){
                         input message: 'Are you sure to deploy?', ok: 'Yes, deploy to pypi'
                             sh 'python -m twine upload dist/* -u $PYPI_CREDENTIALS_USR -p $PYPI_CREDENTIALS_PSW --skip-existing'
