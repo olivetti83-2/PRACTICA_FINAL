@@ -1,0 +1,14 @@
+pipelineJob('Infraestructura') {
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/olivetti83-2/PRACTICA_FINAL.git')
+                    }
+                    branch('main')
+                }
+            }
+        }
+    }
+}
