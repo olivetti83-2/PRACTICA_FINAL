@@ -2,15 +2,15 @@ pipeline {
     agent {
         label('terraform')
     }
-    // environment {
-    //     PYPI_CREDENTIALS = credentials("pypi-credentials")
-    // }
+    environment {
+        AWS_CREDENTIALS = credentials("aws-credentials")
+    }
 
     stages {
         stage('Init-dev') {
             steps {
                 dir('infraestructura') {
-                    sh 'terraform init'
+                    sh 'terraform init -backend-config="dev/terraform.tfstate"'
                 }
             }
         }
