@@ -4,8 +4,8 @@ pipeline {
     }
     environment {
         AWS_CREDENTIALS = credentials("aws-credentials")
-        AWS_ACCESS_KEY_ID = "$(env.AWS_CREDENTIALS_USR)"
-        AWS_SECRET_KEY = "$(env.AWS_CREDENTIALS_PSW)"
+        AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
+        AWS_SECRET_KEY = "${env.AWS_CREDENTIALS_PSW}"
     }
 
     stages {
