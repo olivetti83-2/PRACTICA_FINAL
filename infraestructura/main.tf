@@ -21,10 +21,10 @@ provider "aws" {
 #Bucket
 resource "aws_s3_bucket" "bucket" {
   bucket = "practica-final-cicd"
-  acl    = "private"
+#   acl    = "private"
 
-  tags {
-    Name        = "practica-final-cicd"
-    Environment = "Dev"
-  }
+#   tags {
+#     Name        = "practica-final-cicd"
+#     Environment = "Dev"
+#   }
 }

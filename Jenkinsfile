@@ -12,7 +12,7 @@ pipeline {
         stage('Init-dev') {
             steps {
                 dir('infraestructura') {
-                    sh 'terraform init -backend-config="dev/terraform.tfstate"'
+                    sh 'terraform init -backend-config="key=dev/terraform.practica-final-cicd"'
                 }
             }
         }
