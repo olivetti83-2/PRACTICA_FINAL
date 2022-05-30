@@ -30,30 +30,30 @@ pipeline {
                 }
             }
         }
-        // stage('Init-prod'){
-        //     steps {
-        //         dir('infraestructura') {
-        //             sh 'python -m build'
-        //         }
-        //     }
-        // }
-        // stage('Plan-prod'){
-        //     steps {
-        //         dir('infraestructura') {
-        //             sh 'python -m build'
-        //         }
-        //     }
-        // }
-        //  stage('Apply-prod'){
-        //     steps {
-        //         dir('infraestructura') {
-        //             timeout(time: 10, unit: 'MINUTES'){
-        //                 input message: 'Are you sure to deploy?', ok: 'Yes, deploy to pypi'
-        //                     sh 'python -m twine upload dist/* -u $PYPI_CREDENTIALS_USR -p $PYPI_CREDENTIALS_PSW --skip-existing'
+        stage('Init-prod'){
+            steps {
+                dir('infraestructura') {
+                    sh 'terraform init -backend-config="key=dev/terraform.practica-final-cicd"'
+                }
+            }
+        }
+        stage('Plan-prod'){
+            steps {
+                dir('infraestructura') {
+                    sh 'terraform plan'
+                }
+            }
+        }
+         stage('Apply-prod'){
+            steps {
+                dir('infraestructura') {
+                    timeout(time: 10, unit: 'MINUTES'){
+                        input message: 'Are you sure to deploy?', ok: 'Yes, deploy to prod'
+                            sh 'terraform apply'
                         
-        //             }
-        //         }
-        //     }
-        // }
+                    }
+                }
+            }
+        }
     }
 }

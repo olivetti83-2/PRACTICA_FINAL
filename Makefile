@@ -1,4 +1,5 @@
 C=infraestructura
+
 all: clean init plan apply
 
 clean:
