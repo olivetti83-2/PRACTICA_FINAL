@@ -26,7 +26,7 @@ pipeline {
         stage('Apply-dev') {
             steps {
                 dir('infraestructura') {
-                    sh 'terraform apply -var-file=dev.practica-final-cicd -auto-approve'
+                    sh 'terraform apply -auto-approve'
                 }
             }
         }
