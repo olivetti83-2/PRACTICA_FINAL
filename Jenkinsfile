@@ -26,14 +26,14 @@ pipeline {
         stage('Apply-dev') {
             steps {
                 dir('infraestructura') {
-                    sh 'terraform apply'
+                    sh 'terraform apply -var-file=dev.practica-final-cicd -auto-approve'
                 }
             }
         }
         stage('Init-prod'){
             steps {
                 dir('infraestructura') {
-                    sh 'terraform init -backend-config="key=dev/terraform.practica-final-cicd"'
+                    sh 'terraform init -backend-config="key=prod/terraform.practica-final-cicd"'
                 }
             }
         }
@@ -49,7 +49,7 @@ pipeline {
                 dir('infraestructura') {
                     timeout(time: 10, unit: 'MINUTES'){
                         input message: 'Are you sure to deploy?', ok: 'Yes, deploy to prod'
-                            sh 'terraform apply'
+                            sh 'terraform apply -var-file=prod.practica-final-cicd -auto-approve'
                         
                     }
                 }
