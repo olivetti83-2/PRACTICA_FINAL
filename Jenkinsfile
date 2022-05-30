@@ -56,7 +56,7 @@ pipeline {
                 dir('infraestructura') {
                     timeout(time: 10, unit: 'MINUTES'){
                         input message: 'Are you sure to deploy?', ok: 'Yes, deploy to prod'
-                            sh 'terraform apply -auto-approve'
+                            sh 'terraform apply -var="environment=prod" -auto-approve'
                         
                     }
                 }
