@@ -47,7 +47,7 @@ pipeline {
         stage('Plan-prod'){
             steps {
                 dir('infraestructura') {
-                    sh 'terraform plan -var="env=prod"'
+                    sh 'terraform plan -var="environment=prod"'
                 }
             }
         }

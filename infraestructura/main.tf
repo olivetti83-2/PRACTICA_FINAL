@@ -19,8 +19,8 @@ provider "aws" {
 
 }
 #Bucket
-resource "aws_s3_bucket" "assets" {
-  bucket = "practica-final-cicd"
+resource "aws_s3_bucket" "bucket" {
+  bucket = "practica-final-cicd-${var.environment}"
 #   acl    = "private"
 
 #   tags {
