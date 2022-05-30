@@ -19,7 +19,7 @@ pipeline {
         stage('Plan-dev') {
             steps {
                 dir('infraestructura') {
-                    sh 'terraform plan'
+                    sh 'terraform plan -var="env=dev"'
                 }
             }
         }
@@ -27,6 +27,13 @@ pipeline {
             steps {
                 dir('infraestructura') {
                     sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+        stage('Clean') {
+            steps {
+                dir('infraestructura') {
+                    sh 'rm -rf .terraform'
                 }
             }
         }
@@ -40,7 +47,7 @@ pipeline {
         stage('Plan-prod'){
             steps {
                 dir('infraestructura') {
-                    sh 'terraform plan'
+                    sh 'terraform plan -var="env=prod"'
                 }
             }
         }
@@ -49,7 +56,7 @@ pipeline {
                 dir('infraestructura') {
                     timeout(time: 10, unit: 'MINUTES'){
                         input message: 'Are you sure to deploy?', ok: 'Yes, deploy to prod'
-                            sh 'terraform apply -var-file=prod.practica-final-cicd -auto-approve'
+                            sh 'terraform apply -auto-approve'
                         
                     }
                 }
