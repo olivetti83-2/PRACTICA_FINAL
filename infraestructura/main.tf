@@ -1,3 +1,9 @@
+variable "environment" {
+    type = string
+    default = "dev"
+}
+
+
 terraform {
     required_providers {
         aws = {
