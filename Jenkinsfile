@@ -19,14 +19,14 @@ pipeline {
         stage('Plan-dev') {
             steps {
                 dir('infraestructura') {
-                    sh 'terraform plan'
+                    sh 'terraform plan -var="environment=dev"'
                 }
             }
         }
         stage('Apply-dev') {
             steps {
                 dir('infraestructura') {
-                    sh 'terraform apply -auto-approve'
+                    sh 'terraform apply -var="environment=dev" -auto-approve'
                 }
             }
         }
@@ -47,7 +47,7 @@ pipeline {
         stage('Plan-prod'){
             steps {
                 dir('infraestructura') {
-                    sh 'terraform plan -var="environment=prod"'
+                    sh 'terraform plan'
                 }
             }
         }
@@ -56,7 +56,7 @@ pipeline {
                 dir('infraestructura') {
                     timeout(time: 10, unit: 'MINUTES'){
                         input message: 'Are you sure to deploy?', ok: 'Yes, deploy to prod'
-                            sh 'terraform apply -var="environment=prod" -auto-approve'
+                            sh 'terraform apply -auto-approve'
                         
                     }
                 }
