@@ -1,4 +1,4 @@
-pipelineJob('Infraestructura') {
+pipelineJob('Infraestructura_despliegue') {
     definition {
         cpsScm {
             scm {
@@ -7,9 +7,26 @@ pipelineJob('Infraestructura') {
                         url('https://github.com/olivetti83-2/PRACTICA_FINAL.git')
                     }
                     branch('main')
-                    script('Jenkinsfile')
+                    script('Jenkinsfile.despliegue')
                 }
             }
         }
     }
 }
+
+pipelineJob('Almacenamiento_control') {
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/olivetti83-2/PRACTICA_FINAL.git')
+                    }
+                    branch('main')
+                    script('Jenkinsfile.control')
+                }
+            }
+        }
+    }
+}
+
