@@ -19,7 +19,7 @@ pipeline {
         stage('Plan-dev') {
             steps {
                 dir('infraestructura') {
-                    sh 'terraform plan -var="env=dev"'
+                    sh 'terraform plan'
                 }
             }
         }
