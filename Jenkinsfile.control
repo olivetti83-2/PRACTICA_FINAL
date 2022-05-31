@@ -10,12 +10,12 @@ pipeline {
     stages{
         stage('Control - dev'){
             steps {
-                sh 'echo probando'
+                sh 'aws s3 ls --sumarize --human-readable --recursive s3://bucket-name/directory'
             }
         }
         stage('Control - prod'){
             steps {
-                sh 'echo probando'
+                sh 'aws s3 ls --sumarize --human-readable --recursive s3://bucket-name/directory'
             }
         }
     }    
