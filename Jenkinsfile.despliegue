@@ -30,20 +30,20 @@ pipeline {
                 }
             }
         }
-        stage('Clean') {
-            steps {
-                dir('infraestructura') {
-                    sh 'rm -rf .terraform'
-                }
-            }
-        }
-        // stage('Init-prod'){
+        // stage('Clean') {
         //     steps {
         //         dir('infraestructura') {
-        //             sh 'terraform init -backend-config="key=prod/terraform.practica-final-cicd"'
+        //             sh 'rm -rf .terraform'
         //         }
         //     }
         // }
+        stage('Init-prod'){
+            steps {
+                dir('infraestructura') {
+                    sh 'terraform init -backend-config="key=prod/terraform.practica-final-cicd"'
+                }
+            }
+        }
         stage('Plan-prod'){
             steps {
                 dir('infraestructura') {
