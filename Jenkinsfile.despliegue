@@ -37,13 +37,13 @@ pipeline {
                 }
             }
         }
-        stage('Init-prod'){
-            steps {
-                dir('infraestructura') {
-                    sh 'terraform init -backend-config="key=prod/terraform.practica-final-cicd"'
-                }
-            }
-        }
+        // stage('Init-prod'){
+        //     steps {
+        //         dir('infraestructura') {
+        //             sh 'terraform init -backend-config="key=prod/terraform.practica-final-cicd"'
+        //         }
+        //     }
+        // }
         stage('Plan-prod'){
             steps {
                 dir('infraestructura') {
