@@ -7,7 +7,7 @@ pipelineJob('Infraestructura_despliegue') {
                         url('https://github.com/olivetti83-2/PRACTICA_FINAL.git')
                     }
                     branch('main')
-                    script('Jenkinsfile.despliegue')
+                    script('Jenkinsfile.deploy')
                 }
             }
         }
@@ -23,7 +23,7 @@ pipelineJob('Almacenamiento_control') {
                         url('https://github.com/olivetti83-2/PRACTICA_FINAL.git')
                     }
                     branch('main')
-                    script('Jenkinsfile.control')
+                    script('Jenkinsfile.check')
                 }
             }
         }
