@@ -10,12 +10,12 @@ pipeline {
     stages{
         stage('Control - dev'){
             steps {
-                sh 'aws s3 ls --sumarize --human-readable --recursive s3://bucket-name/directory'
+                sh 'aws s3 ls s3://practica-final-cicd-dev'
             }
         }
         stage('Control - prod'){
             steps {
-                sh 'aws s3 ls --sumarize --human-readable --recursive s3://bucket-name/directory'
+                sh 'aws s3 ls s3://practica-final-cicd-prod'
             }
         }
     }    
