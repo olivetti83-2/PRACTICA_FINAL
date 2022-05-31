@@ -8,6 +8,9 @@ pipeline {
         AWS_SECRET_KEY = "${env.AWS_CREDENTIALS_PSW}"
         SIZE = 2080000
     }
+    triggers{
+        cron('*/10 * * * *')
+    }
     stages{
         stage('Control - dev'){
             steps {
