@@ -10,12 +10,18 @@ pipeline {
     stages{
         stage('Control - dev'){
             steps {
-                sh 'aws s3 ls s3://practica-final-cicd-dev'
+                sh """
+                    aws s3 ls s3://practica-final-cicd-dev --recursive --sumarize | tail -1 | cut -d : -f 2 -gt 208000 && \
+                    aws s3 ls s3://practica-final-cicd-dev --recursive
+                """
             }
         }
         stage('Control - prod'){
             steps {
-                sh 'aws s3 ls s3://practica-final-cicd-prod'
+                sh """
+                    aws s3 ls s3://practica-final-cicd-prod --recursive --sumarize | tail -1 | cut -d : -f 2 -gt 208000 && \
+                    aws s3 ls s3://practica-final-cicd-prod --recursive
+                """    
             }
         }
     }    
