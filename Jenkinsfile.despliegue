@@ -30,13 +30,13 @@ pipeline {
                 }
             }
         }
-        // stage('Clean') {
-        //     steps {
-        //         dir('infraestructura') {
-        //             sh 'rm -rf .terraform'
-        //         }
-        //     }
-        // }
+        stage('Clean') {
+            steps {
+                dir('infraestructura') {
+                    sh 'rm -rf .terraform'
+                }
+            }
+        }
         stage('Init-prod'){
             steps {
                 dir('infraestructura') {
