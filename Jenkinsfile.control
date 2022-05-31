@@ -16,7 +16,7 @@ pipeline {
             steps {
                 sh """
                     aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2 -gt ${SIZE} ]] && \
-                    aws s3 ls s3://practica-final-cicd-dev --recursive
+                    aws s3 rm s3://practica-final-cicd-dev --recursive
                 """
             }
         }
@@ -24,7 +24,7 @@ pipeline {
             steps {
                 sh """
                     aws s3 ls s3://practica-final-cicd-prod --recursive --summarize | tail -1 | cut -d : -f 2 -gt ${SIZE} ]] && \
-                    aws s3 ls s3://practica-final-cicd-prod --recursive
+                    aws s3 rm s3://practica-final-cicd-prod --recursive
                 """    
             }
         }
