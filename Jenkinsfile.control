@@ -5,7 +5,7 @@ pipeline {
     environment {
         AWS_CREDENTIALS = credentials("aws-credentials")
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
-        AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
+        AWS_SECRET_KEY = "${env.AWS_CREDENTIALS_PSW}"
         SIZE = 2080000
         ALMACENAMIENTO = sh 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize'
 
@@ -14,15 +14,19 @@ pipeline {
         cron('*/10 * * * *')
     }
     stages{
-        stage('Control - dev'){
+        stage ('Control - dev') {
             steps {
-                echo '${ALMACENAMIENTO}'    
+                if (${ALMACENAMIENTO} == ${SIZE}) {
+                    sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
+                }else{
+                    sh 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize'
+                }  
             }
         }
-        stage('Control - prod'){
-            steps {
-                echo 'Aloha' 
-            }
-        }
+        // stage('Control - prod'){
+        //     steps {
+        //         echo 'Aloha' 
+        //     }
+        // }
     }    
 }
