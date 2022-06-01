@@ -1,30 +1,31 @@
 pipeline {
+
     agent {
         label 'terraform'
     }
+
     environment {
         AWS_CREDENTIALS = credentials("aws-credentials")
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
         SIZE = 2080000
         ALMACENAMIENTO = sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
-
     }
-    triggers{
+
+    triggers {
         cron('*/10 * * * *')
     }
-    stages{
+
+    stages {
         stage ('Control - dev') {
             steps {
-                // sh 'aws s3 rm s3://practica-final-cicd-dev --recursive' 
-                script {
-                    if (${ALMACENAMIENTO} == ${SIZE}) {
-                        AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
-                        AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
-                        sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
-                    } else {
-                        sh 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize'
-                    }  
+                sh 'aws s3 ls s3://practica-final-cicd-dev --recursive' 
+                
+            }
+            steps {
+                timeout(time: 10, unit: 'MINUTES'){
+                input message: 'Quieres borrar bucket?', ok: 'Sí, borrar'
+                sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
                 }
             }
         }
@@ -33,5 +34,6 @@ pipeline {
         //         echo 'Aloha' 
         //     }
         // }
-    }    
+         
+    }
 }
