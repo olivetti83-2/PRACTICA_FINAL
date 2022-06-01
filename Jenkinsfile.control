@@ -9,7 +9,7 @@ pipeline {
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
         SIZE = 2080000
-        ALMACENAMIENTO = sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
+        ALMACENAMIENTO = sh 'aws s3 ls s3://practica-final-cicd-dev --recursive'
     }
 
     triggers {
@@ -19,13 +19,13 @@ pipeline {
     stages {
         stage ('Control - dev') {
             steps {
-                sh aws s3 ls s3://practica-final-cicd-dev --recursive' && \
+                sh 'aws s3 ls s3://practica-final-cicd-dev --recursive'
                 }
             }
         stage ('Borrar datos - dev') {
             steps {
                 input message: 'Are you sure to deploy?', ok: 'Yes, deploy to prod'
-                    sh 'terraform apply -auto-approve'
+                    sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
                 }
             }
         // stage('Control - prod'){
