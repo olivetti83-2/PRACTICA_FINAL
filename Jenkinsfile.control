@@ -25,7 +25,7 @@ pipeline {
             steps {
                 timeout(time: 10, unit: 'MINUTES'){
                     input message: 'Almacenamiento lleno?', ok: 'Sí'
-                        sh 'aws s3 sync s3://practica-final-cicd-dev ./Desktop' &&\
+                        sh 'aws s3 sync s3://practica-final-cicd-dev ./Desktop'
                     input message: 'Quieres borrar datos?', ok: 'Sí'
                         sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
                         
