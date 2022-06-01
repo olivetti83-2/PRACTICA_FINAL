@@ -8,6 +8,8 @@ pipeline {
         AWS_CREDENTIALS = credentials("aws-credentials")
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
+        SIZE = 2090000
+        ALMACENAMIENTO = sh 'aws s3 ls s3://practica-final-cicd-prod --recursive'
     }
 
     triggers {
@@ -15,11 +17,18 @@ pipeline {
     }
 
     stages {
-        stage ('Control - dev') {
+        stage ('Prueba - Control - dev') {
             steps {
-                sh 'aws s3 ls s3://practica-final-cicd-dev --recursive'
-                }
+                script{
+                    if(${SIZE} < ${ALMACENAMIENTO}){
+                        sh 'aws s3 ls s3://practica-final-cicd-prod --recursive' 
+                    }else{
+                        sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'  
+                    }
+
+                }  
             }
+        }
         stage ('Borrar datos - dev') {
             steps {
                 timeout(time: 10, unit: 'MINUTES'){
