@@ -16,11 +16,13 @@ pipeline {
     stages{
         stage ('Control - dev') {
             steps {
-                if (${ALMACENAMIENTO} == ${SIZE}) {
-                    sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
-                }else{
-                    sh 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize'
-                }  
+                script {
+                    if (${ALMACENAMIENTO} == ${SIZE}) {
+                        sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
+                    }else{
+                        sh 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize'
+                    }  
+                }
             }
         }
         // stage('Control - prod'){
