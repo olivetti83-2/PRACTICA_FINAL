@@ -14,10 +14,11 @@ pipeline {
     stages{
         stage('Control - dev'){
             steps {
-                sh """
-                    aws s3 ls --summarize --human-readable --recursive s3://practica-final-cicd-dev | tail -1 | cut -d: -f 2 -gt ${SIZE} ]] && \
-                    aws s3 rm s3://practica-final-cicd-dev --recursive
-                """
+                if(df -h == ${SIZE}) {
+                    sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
+                }else{
+                    sh 'aws s3 ls --summarize --human-readable --recursive s3://practica-final-cicd-dev'
+                }
             }
         }
         stage('Control - prod'){
