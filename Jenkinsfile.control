@@ -31,11 +31,22 @@ pipeline {
                     }
                 }
             }
-        // stage('Control - prod'){
-        //     steps {
-        //         echo 'Aloha' 
-        //     }
-        // }
+        stage ('Control - prod') {
+            steps {
+                sh 'aws s3 ls s3://practica-final-cicd-prod --recursive'
+                }
+            }
+        stage ('Borrar datos - prod') {
+            steps {
+                timeout(time: 10, unit: 'MINUTES'){
+                    input message: 'Almacenamiento lleno?', ok: 'Sí'
+                        input message: 'Quieres borrar datos?', ok: 'Sí'
+                            sh 'aws s3 rm s3://practica-final-cicd-prod --recursive'
+                        
+                    }
+                }
+            }
+
          
         }
 }
