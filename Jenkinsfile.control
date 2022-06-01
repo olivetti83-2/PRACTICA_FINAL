@@ -7,7 +7,7 @@ pipeline {
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
         SIZE = 2080000
-        ALMACENAMIENTO = aws s3 ls s3://practica-final-cicd-dev --recursive --summarize
+        ALMACENAMIENTO = sh 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize'
     }
     triggers{
         cron('*/10 * * * *')
