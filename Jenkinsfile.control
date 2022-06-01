@@ -19,19 +19,20 @@ pipeline {
     stages {
         stage ('Control - dev') {
             steps {
-                sh """
-                    aws s3 ls s3://practica-final-cicd-dev --recursive' && \
-                    timeout(time: 10, unit: 'MINUTES'){
-                        input message: 'Quieres borrar bucket?', ok: 'Sí, borrar'
-                        sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
-                """
+                sh aws s3 ls s3://practica-final-cicd-dev --recursive' && \
                 }
             }
-        }
+        stage ('Borrar datos - dev') {
+            steps {
+                input message: 'Are you sure to deploy?', ok: 'Yes, deploy to prod'
+                    sh 'terraform apply -auto-approve'
+                }
+            }
         // stage('Control - prod'){
         //     steps {
         //         echo 'Aloha' 
         //     }
         // }
          
-    }
+        }
+}
