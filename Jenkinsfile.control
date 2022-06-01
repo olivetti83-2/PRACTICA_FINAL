@@ -9,7 +9,6 @@ pipeline {
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
         SIZE = 2080000
-        ALMACENAMIENTO = sh 'aws s3 ls s3://practica-final-cicd-dev --recursive'
     }
 
     triggers {
@@ -24,8 +23,12 @@ pipeline {
             }
         stage ('Borrar datos - dev') {
             steps {
-                input message: 'Are you sure to deploy?', ok: 'Yes, deploy to prod'
-                    sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
+                timeout(time: 10, unit: 'MINUTES'){
+                    input message: 'Almacenamiento lleno?', ok: 'Sí'
+                        input message: 'Quieres borrar datos?', ok: 'Sí'
+                            sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
+                        
+                    }
                 }
             }
         // stage('Control - prod'){
