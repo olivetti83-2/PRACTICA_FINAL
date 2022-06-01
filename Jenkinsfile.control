@@ -19,7 +19,7 @@ pipeline {
                 script {
                     if (${ALMACENAMIENTO} == ${SIZE}) {
                         sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
-                    }else{
+                    } else {
                         sh 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize'
                     }  
                 }
