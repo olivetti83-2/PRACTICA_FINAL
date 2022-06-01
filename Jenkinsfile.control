@@ -8,6 +8,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
         SIZE = 2080000
         ALMACENAMIENTO = sh 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize'
+
     }
     triggers{
         cron('*/10 * * * *')
@@ -15,13 +16,9 @@ pipeline {
     stages{
         stage('Control - dev'){
             steps {
-                echo '${ALMACENAMIENTO}'
-            }
-            steps {
-                echo 'ALoha'
+                echo '${ALMACENAMIENTO}'    
             }
         }
-
         stage('Control - prod'){
             steps {
                 echo 'Aloha' 
