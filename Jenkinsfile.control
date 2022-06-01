@@ -8,7 +8,6 @@ pipeline {
         AWS_CREDENTIALS = credentials("aws-credentials")
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
-        SIZE = 2080000
     }
 
     triggers {
@@ -25,7 +24,7 @@ pipeline {
             steps {
                 timeout(time: 10, unit: 'MINUTES'){
                     input message: 'Almacenamiento lleno?', ok: 'Sí'
-                        sh 'aws s3 sync s3://practica-final-cicd-dev ./Desktop'
+                        sh 'aws s3 sync s3://practica-final-cicd-dev ./Desktop' //descargar los datos por si acaso...
                     input message: 'Quieres borrar datos?', ok: 'Sí'
                         sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
                         
@@ -41,8 +40,9 @@ pipeline {
             steps {
                 timeout(time: 10, unit: 'MINUTES'){
                     input message: 'Almacenamiento lleno?', ok: 'Sí'
-                        input message: 'Quieres borrar datos?', ok: 'Sí'
-                            sh 'aws s3 rm s3://practica-final-cicd-prod --recursive'
+                        sh 'aws s3 sync s3://practica-final-cicd-prod ./Desktop'
+                    input message: 'Quieres borrar datos?', ok: 'Sí'
+                        sh 'aws s3 rm s3://practica-final-cicd-prod --recursive'
                         
                     }
                 }
