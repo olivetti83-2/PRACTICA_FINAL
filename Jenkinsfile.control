@@ -8,17 +8,18 @@ pipeline {
         AWS_CREDENTIALS = credentials("aws-credentials")
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
+        SIZE = 2100000
     }
 
-    triggers {
-        cron('*/10 * * * *')
-    }
+    // triggers {
+    //     cron('*/10 * * * *')
+    // }
 
-    stages {
+
 
         stage ('Control - dev') {
             steps {
-                sh 'aws s3 ls s3://practica-final-cicd-dev --recursive'
+                sh 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize'
                 }
             }
 
@@ -36,7 +37,7 @@ pipeline {
 
         stage ('Control - prod') {
             steps {
-                sh 'aws s3 ls s3://practica-final-cicd-prod --recursive'
+                sh 'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize'
                 }
             }
             
