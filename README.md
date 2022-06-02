@@ -75,5 +75,5 @@
                     aws s3 rm s3://practica-final-cicd-dev --recursive             
                 '''
                 }
-            }
+        }
 ```
