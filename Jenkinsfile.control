@@ -25,8 +25,8 @@ pipeline {
         stage ('Borrar datos - dev') {
             steps {
                 timeout(time: 10, unit: 'MINUTES'){
-                    input message: 'Almacenamiento lleno?', ok: 'Sí'
-                        sh 'aws s3 sync s3://practica-final-cicd-dev /home' //descargar los datos por si acaso...
+                    // input message: 'Almacenamiento lleno?', ok: 'Sí'
+                    //     sh 'aws s3 sync s3://practica-final-cicd-dev (pon aquí la carpeta donde quieres que se descargue)' //descargar los datos por si acaso...
                     input message: 'Quieres borrar datos?', ok: 'Sí'
                         sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
                         
@@ -43,8 +43,8 @@ pipeline {
         stage ('Borrar datos - prod') {
             steps {
                 timeout(time: 10, unit: 'MINUTES'){
-                    input message: 'Almacenamiento lleno?', ok: 'Sí'
-                        sh 'aws s3 sync s3://practica-final-cicd-prod /home'
+                    // input message: 'Almacenamiento lleno?', ok: 'Sí'
+                    //     sh 'aws s3 sync s3://practica-final-cicd-prod (pon aquí la carpeta donde quieres que se descargue)'
                     input message: 'Quieres borrar datos?', ok: 'Sí'
                         sh 'aws s3 rm s3://practica-final-cicd-prod --recursive'
                         
