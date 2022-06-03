@@ -26,7 +26,7 @@ pipeline {
         stage ('Borrar - dev') {
             environment{
                 ALMACENAMIENTO_1 = "${sh('aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
-                TOTAL_SIZE = 2090000
+                TOTAL_SIZE = "2090000"
 
             }
             when {
