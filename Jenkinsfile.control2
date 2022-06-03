@@ -23,7 +23,7 @@ pipeline {
                 sh 'ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
                 when{
                     expression{
-                        "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"
+                        ${ALMACENAMIENTO_1} == ${TOTAL_SIZE}
                     }
                     steps {
                         sh '''
