@@ -51,6 +51,7 @@ pipeline {
             }
             steps {
                 echo 'No has llegado al límite de almacenamiento, por loque no se ha borrado nada'
-            } 
+            }   
+        }
+    }
 }
-
