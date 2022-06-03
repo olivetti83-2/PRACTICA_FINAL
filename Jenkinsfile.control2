@@ -26,7 +26,7 @@ pipeline {
         stage ('Borrar - dev') {
             when {
                 expression {
-                    "${env.ALMACENAMIENTO_1}" == ${TOTAL_SIZE}           
+                    "${ALMACENAMIENTO_1}" == ${TOTAL_SIZE}           
                 }
             }
             steps {
