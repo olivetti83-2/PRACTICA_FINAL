@@ -17,14 +17,12 @@ pipeline {
     //     cron('*/10 * * * *')
     // }
     
-    
-
     stages {
         stage ('Control2 - dev') {
             when {
-                // expression { 
-                sh '${env.ALMACENAMIENTO1} -gt ${env.SIZE}'
-                    // }
+                expression { 
+                    sh(script:'${env.ALMACENAMIENTO1} -gt ${env.SIZE}')
+                    }
                 }
             steps {
                 sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
