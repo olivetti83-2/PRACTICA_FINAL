@@ -18,15 +18,15 @@ pipeline {
     // }
     
     stages { 
-        // stage ('Variables'){
-        //     steps{
-        //         ALMACENAMIENTO_1 = "${sh('aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2') }"
-        //     }
-        // }
+        stage ('Variables'){
+            steps{
+                sh 'ALMACENAMIENTO_1=$('aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')''
+            }
+        }
         stage ('Borrar - dev') {
             when {
                 expression {
-                    "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"           
+                    "${ALMACENAMIENTO_1}" == ${TOTAL_SIZE}           
                 }
             }
             steps {
