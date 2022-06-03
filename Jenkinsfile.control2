@@ -21,7 +21,7 @@ pipeline {
         stage ('Control2 - dev') {
             when {
                 expression { 
-                    sh [[ $("${ALMACENAMIENTO_1}" -gt "${TOTAL_SIZE}") ]]
+                    sh [[ $(${ALMACENAMIENTO_1} -gt ${TOTAL_SIZE}) ]]
                     }
                 }
             steps {
