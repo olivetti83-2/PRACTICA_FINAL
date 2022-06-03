@@ -6,8 +6,8 @@ pipeline {
 
     environment {
         AWS_CREDENTIALS = credentials("aws-credentials")
-        AWS_ACCESS_KEY_ID = "${AWS_CREDENTIALS_USR}"
-        AWS_SECRET_ACCESS_KEY = "${AWS_CREDENTIALS_PSW}"
+        AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
+        AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
         SIZE = 2090000
         ALMACENAMIENTO1="${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
 
@@ -23,7 +23,7 @@ pipeline {
         stage ('Control2 - dev') {
             when {
                 expression { 
-                    ${ALMACENAMIENTO1} == ${SIZE}
+                    [[ ${ALMACENAMIENTO1} == ${SIZE} ]]
                     }
                 }
             steps {
