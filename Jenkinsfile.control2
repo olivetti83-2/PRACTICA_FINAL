@@ -28,7 +28,7 @@ pipeline {
             }
         }
         stage ('Borrar - dev') {
-            withEnv([sh 'ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)']){
+            withEnv([ALMACENAMIENTO_1="${sh(script:'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"]) {
                 when {
                     expression {
                         "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"           
