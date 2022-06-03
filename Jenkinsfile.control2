@@ -18,11 +18,11 @@ pipeline {
     // }
     
     stages {
-        // stage ('Calculando - dev') {
-        //     steps {
-        //         ALMACENAMIENTO_1="${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
-        //         }
-        //     }   
+        stage ('Calculando - dev') {
+            steps {
+                sh 'ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
+                }
+            }   
         stage ('Borrar - dev') {
             when {
                 expression{
