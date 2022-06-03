@@ -28,33 +28,38 @@ pipeline {
                 environment(name: "ALMACENAMIENTO_1", value: "2090000")
             }
             steps {
-                sh '''
-                    aws s3 rm s3://practica-final-cicd-dev --recursive || \
-                    echo "El bucket no está lleno"
-                '''
+                sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
+            }
+            when{
+                not{
+                    environment(name: "ALMACENAMIENTO_3", value: "2090000")
+                }
+            }
+            steps {
+                echo "El bucket no está lleno"
             }
             
         }
-        stage ('Calculando - prod') {
-            steps {
-                sh 'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize'
-                }
-            }  
-        stage ('Control - prod') {
-            when {
-                environment(name: "ALMACENAMIENTO_2", value: "209000")
-            }
-            steps {
-                sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
-            }    
-        }
-        stage ('Resultado') {
-            when {
-                environment(name: "ALMACENAMIENTO_2", value: "${NOT_FULL}")
-            }
-            steps {
-                echo 'No has llegado al límite de almacenamiento, por loque no se ha borrado nada'
-            }   
-        }
+        // stage ('Calculando - prod') {
+        //     steps {
+        //         sh 'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize'
+        //         }
+        //     }  
+        // stage ('Control - prod') {
+        //     when {
+        //         environment(name: "ALMACENAMIENTO_2", value: "209000")
+        //     }
+        //     steps {
+        //         sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
+        //     }    
+        // }
+        // stage ('Resultado') {
+        //     when {
+        //         environment(name: "ALMACENAMIENTO_2", value: "${NOT_FULL}")
+        //     }
+        //     steps {
+        //         echo 'No has llegado al límite de almacenamiento, por loque no se ha borrado nada'
+        //     }   
+        // }
     }
 }
