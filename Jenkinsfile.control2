@@ -20,7 +20,9 @@ pipeline {
     stages { 
         stage ('Variables'){
             steps{
-                withEnv([ALMACENAMIENTO_1 = sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')])
+                withEnv([ALMACENAMIENTO_1 = sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')]){
+                    echo "${ALMACENAMIENTO_1}"
+                }
             }
         }
         stage ('Borrar - dev') {
