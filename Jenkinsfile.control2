@@ -20,7 +20,7 @@ pipeline {
     stages {
         stage ('Calculando - dev') {
             steps {
-                ALMACENAMIENTO_1="${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
+                // ALMACENAMIENTO_1="${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
                 }
             }   
         stage ('Borrar - dev') {
