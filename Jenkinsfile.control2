@@ -9,15 +9,15 @@ pipeline {
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
         SIZE = 2090000
+        ALMACENAMIENTO1="${sh(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2) }"
+
     }
 
     // triggers {
     //     cron('*/10 * * * *')
     // }
     
-    environment {
-        sh 'ALMACENAMIENTO1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
-        }
+    
 
     stages {
         stage ('Control2 - dev') {
