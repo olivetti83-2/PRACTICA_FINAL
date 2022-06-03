@@ -39,7 +39,7 @@ pipeline {
                 }
             }
             steps {
-                echo 'El bucket-dev tiene "${ALMACENAMIENTO_1}"MB,  no está lleno'
+                echo 'El bucket-dev tiene' + "${ALMACENAMIENTO_1}" + 'MB,  no está lleno'
             }
         }
 
