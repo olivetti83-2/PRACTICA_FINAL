@@ -9,8 +9,7 @@ pipeline {
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
         TOTAL_SIZE = 2090000
-
-        // ALMACENAMIENTO_1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
+        ALMACENAMIENTO_1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
 
     }
 
@@ -21,10 +20,11 @@ pipeline {
     stages {
         stage ('Control2 - dev') {
             when {
-                expression { 
-                    sh '(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2) -gt ${TOTAL_SIZE} '
-                    }
-                }
+                environment(name: "ALMACENAMIENTO_1", value: 209000)
+                // expression { 
+                //     sh '(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2) -gt ${TOTAL_SIZE} '
+                //     }
+                // }
             steps {
                 sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
             }
