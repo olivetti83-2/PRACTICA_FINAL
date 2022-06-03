@@ -41,11 +41,11 @@ pipeline {
         stage ('Resultado - dev') {
             when {
                 expression { 
-                    "${ALMACENAMIENTO_1}" != "${TOTAL_SIZE}"
+                    "${env.ALMACENAMIENTO_1}" != "${TOTAL_SIZE}"
                 }
             }
             steps {
-                echo 'El bucket-dev tiene ' + "${env.ALMACENAMIENTO_1}" + ' MB,  no está lleno'
+                echo 'El bucket-dev tiene ' + ${env.ALMACENAMIENTO_1} + ' MB,  no está lleno'
             }
         }
 
