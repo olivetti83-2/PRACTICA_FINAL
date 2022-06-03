@@ -9,7 +9,7 @@ pipeline {
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
         TOTAL_SIZE = 2090000
-        // ALMACENAMIENTO_1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
+        ALMACENAMIENTO_1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
         // ALMACENAMIENTO_2 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize | tail -1 | cut -d : -f 2')}"
     }
 
@@ -18,15 +18,15 @@ pipeline {
     // }
     
     stages {
-        stage ('Tamaño - dev') {
-            steps {
-                sh 'ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
-                }
-            }   
+        // stage ('Tamaño - dev') {
+        //     steps {
+        //         sh 'ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
+        //         }
+        //     }   
         stage ('Borrar - dev') {
             when {
                 expression{
-                    "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"
+                    "${env.ALMACENAMIENTO_1}" == "${env.TOTAL_SIZE}"
                 }
             }
             steps {
@@ -39,11 +39,11 @@ pipeline {
         stage ('Resultado - dev') {
             when {
                 expression { 
-                    "${ALMACENAMIENTO_1}" != "${TOTAL_SIZE}"
+                    "${env.ALMACENAMIENTO_1}" != "${env.TOTAL_SIZE}"
                 }
             }
             steps {
-                echo 'El bucket-dev tiene ' + "${ALMACENAMIENTO_1}" + 'MB,  no está lleno'
+                echo 'El bucket-dev tiene ' + "${env.ALMACENAMIENTO_1}" + 'MB,  no está lleno'
             }
         }
 
