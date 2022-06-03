@@ -23,7 +23,7 @@ pipeline {
         stage ('Control2 - dev') {
             when {
                 expression { 
-                    [[ "${ALMACENAMIENTO}" -gt "${SIZE}" ]] 
+                    ALMACENAMIENTO == SIZE
                     }
                 }
             steps {
