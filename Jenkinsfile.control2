@@ -25,10 +25,13 @@ pipeline {
             }   
         stage ('Control - dev') {
             when {
-                environment(name: "ALMACENAMIENTO_3", value: "2090000")
+                environment(name: "ALMACENAMIENTO_1", value: "2090000")
             }
             steps {
-                sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
+                sh '''
+                    aws s3 rm s3://practica-final-cicd-dev --recursive || \
+                    echo "El bucket no está lleno"
+                '''
             }
             
         }
