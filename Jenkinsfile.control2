@@ -16,14 +16,14 @@ pipeline {
     // }
     
     environment {
-        sh 'ALMACENAMIENTO=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
+        sh 'ALMACENAMIENTO1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
         }
 
     stages {
         stage ('Control2 - dev') {
             when {
                 expression { 
-                    ${ALMACENAMIENTO} == ${SIZE}
+                    ${ALMACENAMIENTO1} == ${SIZE}
                     }
                 }
             steps {
