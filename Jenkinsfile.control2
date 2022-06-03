@@ -10,7 +10,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
         TOTAL_SIZE = 2090000
         ALMACENAMIENTO_1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
-
+        ALMACENAMIENTO_2 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize | tail -1 | cut -d : -f 2')}"
     }
 
     // triggers {
@@ -18,23 +18,39 @@ pipeline {
     // }
     
     stages {
-        stage ('Control2 - dev') {
+        stage ('Calculando - dev') {
+            steps {
+                sh 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize'
+                }
+            }   
+        stage ('Control - dev') {
             when {
                 environment(name: "ALMACENAMIENTO_1", value: "209000")
-                // expression { 
-                //     sh '(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2) -gt ${TOTAL_SIZE} '
-                //     }
             }
             steps {
                 sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
             }
             
         }
-        stage ('Control - prod') {
+        stage ('Calculando - prod') {
             steps {
                 sh 'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize'
                 }
-            }      
-    }
+            }  
+        stage ('Control - prod') {
+            when {
+                environment(name: "ALMACENAMIENTO_2", value: "209000")
+            }
+            steps {
+                sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
+            }    
+        }
+        stage ('Resultado') {
+            when {
+                environment(name: "ALMACENAMIENTO_2", value: "<209000")
+            }
+            steps {
+                echo 'No has llegado al límite de almacenamiento, por loque no se ha borrado nada'
+            } 
 }
 
