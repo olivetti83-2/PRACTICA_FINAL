@@ -16,7 +16,7 @@ pipeline {
     // }
     
     environment {
-        ALMACENAMIENTO="${sh(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)}"
+        ALMACENAMIENTO="${sh(script:aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)}"
         }
 
     stages {
