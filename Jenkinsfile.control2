@@ -29,8 +29,8 @@ pipeline {
                 TOTAL_SIZE = "2090000"
             }
             when {
-                expression{
-                    "${env.ALMACENAMIENTO_1}" == "${env.TOTAL_SIZE}"
+                expression {
+                    "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"
                 }
             }
             steps {
