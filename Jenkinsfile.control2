@@ -18,13 +18,13 @@ pipeline {
     // }
     
     stages { 
-        // stage ('Variables'){
-        //     steps{
-        //         script{
-        //             env.ALMACENAMIENTO_1 = sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')
-        //         } 
-        //     }
-        // }
+        stage ('Variables'){
+            steps{
+                script{
+                    ALMACENAMIENTO_1 = sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')
+                } 
+            }
+        }
         stage ('Borrar - dev') {
             when {
                 expression {
