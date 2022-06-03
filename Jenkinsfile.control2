@@ -22,19 +22,24 @@ pipeline {
             steps {
                 sh '''
                     ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)
-
+                    [[ "${BUCKET_DEV}" -gt ${TOTAL_SIZE} ]] && \
+                    echo "No está lleno"
                 '''
             }
-            when {
-                expression {
-                    "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"           
+        }
+        stage ('Borrar - dev') {
+            withEnv([sh 'ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)']){
+                when {
+                    expression {
+                        "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"           
+                    }
                 }
-            }
-            steps {
-                sh '''
-                    aws s3 rm s3://practica-final-cicd-dev --recursive && \
-                    echo "El bucket-dev se ha borrado porque estaba lleno"
-                '''
+                steps {
+                    sh '''
+                        aws s3 rm s3://practica-final-cicd-dev --recursive && \
+                        echo "El bucket-dev se ha borrado porque estaba lleno"
+                    '''
+                }
             }
         }
         stage ('Resultado - dev') {
