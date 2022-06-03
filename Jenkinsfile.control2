@@ -17,12 +17,7 @@ pipeline {
     //     cron('*/10 * * * *')
     // }
     
-    stages {
-        stage ('Calculando - dev') {
-            steps {
-                sh 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize'
-                }
-            }   
+    stages {  
         stage ('Borrar - dev') {
             when {
                 expression{
@@ -36,6 +31,7 @@ pipeline {
                 '''
             }
         }
+        
         stage ('Resultado - dev') {
             when {
                 expression { 
@@ -46,19 +42,21 @@ pipeline {
                 echo 'El bucket-dev no está lleno'
             }
         }
-        stage ('Calculando - prod') {
-            steps {
-                sh 'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize'
-                }
-            }  
-        stage ('Control - prod') {
+
+        stage ('Borrar - prod') {
             when {
-                environment(name: "ALMACENAMIENTO_2", value: "2090000")
+                expression{
+                    "${ALMACENAMIENTO_2}" == "${TOTAL_SIZE}"
+                }
             }
             steps {
-                sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
-            }    
+                sh '''
+                    aws s3 rm s3://practica-final-cicd-prod --recursive' && \
+                    echo 'El bucket-prod se ha borrado porque estaba lleno'
+                '''
+            }
         }
+
         stage ('Resultado - prod') {
             when {
                 expression { 
