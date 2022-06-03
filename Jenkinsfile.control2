@@ -20,7 +20,7 @@ pipeline {
     stages { 
         stage ('Borrar - dev') {
             environment {
-                sh 'ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
+                sh '(ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2))'
             }
             when {
                 expression {
