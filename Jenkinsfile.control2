@@ -31,7 +31,7 @@ pipeline {
                 '''
             }
         }
-        
+
         stage ('Resultado - dev') {
             when {
                 expression { 
@@ -39,7 +39,7 @@ pipeline {
                 }
             }
             steps {
-                echo 'El bucket-dev no está lleno'
+                echo 'El bucket-dev tiene ${ALMACENAMIENTO_1}MB,  no está lleno'
             }
         }
 
