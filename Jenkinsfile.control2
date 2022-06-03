@@ -8,7 +8,7 @@ pipeline {
         AWS_CREDENTIALS = credentials("aws-credentials")
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
-        // TOTAL_SIZE = 2090000
+        TOTAL_SIZE = 2090000
         ALMACENAMIENTO_1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2') }"
         // ALMACENAMIENTO_2 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize | tail -1 | cut -d : -f 2')}"
     }
@@ -17,16 +17,11 @@ pipeline {
     //     cron('*/10 * * * *')
     // }
     
-    stages {
-        // stage ('Tamaño - dev') {
-        //     steps {
-        //         sh 'ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
-        //         }
-        //     }   
+    stages { 
         stage ('Borrar - dev') {
             when {
                 expression {
-                    "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"
+                    "${env.ALMACENAMIENTO_1}" == "${env.TOTAL_SIZE}"
                 }
             }
             steps {
