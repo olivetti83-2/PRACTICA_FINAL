@@ -18,9 +18,9 @@ pipeline {
     // }
     
     stages { 
-        stage ('Variables'){
-            steps{
-                sh 'ALMACENAMIENTO_1=$('aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')''
+        stage ('Variables') {
+            steps {
+                sh 'ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
             }
         }
         stage ('Borrar - dev') {
