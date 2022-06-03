@@ -22,7 +22,7 @@ pipeline {
         stage ('Control2 - dev') {
             when {
                 expression { 
-                    sh '${env.ALMACENAMIENTO1} -gt ${env.SIZE}'
+                    sh '(${env.ALMACENAMIENTO1}" -gt ${env.SIZE})'
                     }
                 }
             steps {
