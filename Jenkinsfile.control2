@@ -8,7 +8,7 @@ pipeline {
         AWS_CREDENTIALS = credentials("aws-credentials")
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
-        ALMACENAMIENTO_1 = "${sh('aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2') }"
+        ALMACENAMIENTO_1 = "${sh(script:'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2') }"
         ALMACENAMIENTO_2 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize | tail -1 | cut -d : -f 2')}"
         TOTAL_SIZE = 2090000
     }
@@ -18,11 +18,11 @@ pipeline {
     // }
     
     stages { 
-        stage ('Variables'){
-            steps{
-                ALMACENAMIENTO_1 = "${sh('aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2') }"
-            }
-        }
+        // stage ('Variables'){
+        //     steps{
+        //         ALMACENAMIENTO_1 = "${sh('aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2') }"
+        //     }
+        // }
         stage ('Borrar - dev') {
             when {
                 expression {
@@ -68,7 +68,7 @@ pipeline {
                 }
             }
             steps {
-                echo 'El bucket-prod no está lleno'
+                echo 'El bucket-dev tiene ' + "${env.ALMACENAMIENTO_2}" + ' MB,  no está lleno'
             }
         }
     }
