@@ -8,8 +8,8 @@ pipeline {
         AWS_CREDENTIALS = credentials("aws-credentials")
         AWS_ACCESS_KEY_ID = "${AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${AWS_CREDENTIALS_PSW}"
-        ALMACENAMIENTO_1="${sh(script:'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
-        ALMACENAMIENTO_2="${sh(script:'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize | tail -1 | cut -d : -f 2')}"
+        ALMACENAMIENTO_1 = "${sh(script:'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
+        ALMACENAMIENTO_2 = "${sh(script:'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize | tail -1 | cut -d : -f 2')}"
         TOTAL_SIZE = 2090000
     }
 
@@ -18,26 +18,17 @@ pipeline {
     // }
     
     stages { 
-        stage ('Prueba') {
+        stage ('Borrar - dev') {
+            when {
+                expression {
+                    "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"           
+                }
+            }
             steps {
                 sh '''
-                    ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)
-                    [[ "${BUCKET_DEV}" -gt ${TOTAL_SIZE} ]] && \
-                    echo "No está lleno"
+                    aws s3 rm s3://practica-final-cicd-dev --recursive && \
+                    echo "El bucket-dev se ha borrado porque estaba lleno"
                 '''
-            }
-        }
-        stage ('Borrar - dev') {
-            withEnv(['ALMACENAMIENTO_1'="${sh(script:'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"]) {
-                    expression {
-                        "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"           
-                    }
-                steps {
-                    sh '''
-                        aws s3 rm s3://practica-final-cicd-dev --recursive && \
-                        echo "El bucket-dev se ha borrado porque estaba lleno"
-                    '''
-                }
             }
         }
         stage ('Resultado - dev') {
