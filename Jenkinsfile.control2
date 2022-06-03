@@ -8,9 +8,8 @@ pipeline {
         AWS_CREDENTIALS = credentials("aws-credentials")
         AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
-        SIZE = 2090000
-        ALMACENAMIENTO1 = 20900
-        // ALMACENAMIENTO1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
+        TOTAL_SIZE = 2090000
+        ALMACENAMIENTO_1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
 
     }
 
@@ -22,7 +21,7 @@ pipeline {
         stage ('Control2 - dev') {
             when {
                 expression { 
-                    sh '("${ALMACENAMIENTO1}" -gt "${SIZE}")'
+                    sh [[ $("${ALMACENAMIENTO_1}" -gt "${TOTAL_SIZE}") ]]
                     }
                 }
             steps {
