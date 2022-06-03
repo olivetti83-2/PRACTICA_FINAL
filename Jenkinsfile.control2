@@ -23,23 +23,25 @@ pipeline {
                 sh 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize'
                 }
             }   
-        stage ('Control - dev') {
+        stage ('Control - dev - full') {
             when {
                 environment(name: "ALMACENAMIENTO_1", value: "2090000")
             }
             steps {
                 sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
             }
+        }
+        stage ('Control - dev - not full'){
             when{
-                not{
+                not {
                     environment(name: "ALMACENAMIENTO_3", value: "2090000")
                 }
             }
             steps {
                 echo "El bucket no está lleno"
             }
-            
         }
+
         stage ('Calculando - prod') {
             steps {
                 sh 'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize'
