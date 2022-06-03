@@ -6,11 +6,11 @@ pipeline {
 
     environment {
         AWS_CREDENTIALS = credentials("aws-credentials")
-        AWS_ACCESS_KEY_ID = "${env.AWS_CREDENTIALS_USR}"
-        AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
+        AWS_ACCESS_KEY_ID = "${AWS_CREDENTIALS_USR}"
+        AWS_SECRET_ACCESS_KEY = "${AWS_CREDENTIALS_PSW}"
         TOTAL_SIZE = 2090000
-        // ALMACENAMIENTO_1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2') }"
-        // ALMACENAMIENTO_2 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize | tail -1 | cut -d : -f 2')}"
+        ALMACENAMIENTO_1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2') }"
+        ALMACENAMIENTO_2 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize | tail -1 | cut -d : -f 2')}"
     }
 
     // triggers {
@@ -21,10 +21,7 @@ pipeline {
         stage ('Borrar - dev') {
             when {
                 expression {
-                    sh '''
-                        ALMACENAMIENTO_1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}" && \
-                        "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"
-                    '''                
+                    "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"           
                 }
             }
             steps {
