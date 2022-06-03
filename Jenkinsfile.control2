@@ -29,7 +29,12 @@ pipeline {
                 sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
             }
             
-        }      
+        }
+        stage ('Control - prod') {
+            steps {
+                sh 'aws s3 ls s3://practica-final-cicd-prod --recursive --summarize'
+                }
+            }      
     }
 }
 
