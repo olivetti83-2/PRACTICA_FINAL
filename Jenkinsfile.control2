@@ -14,12 +14,12 @@ pipeline {
     // triggers {
     //     cron('*/10 * * * *')
     // }
-    stages {
-        stage ('Control1 - dev') {
-            steps {
-                sh 'ALMACENAMIENTO=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
-            }
+    
+    environment {
+        ALMACENAMIENTO="${sh(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)}"
         }
+
+    stages {
         stage ('Control2 - dev') {
             when {
                 expression { "${ALMACENAMIENTO}" -gt "${SIZE}" }

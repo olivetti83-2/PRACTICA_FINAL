@@ -75,5 +75,8 @@
                     aws s3 rm s3://practica-final-cicd-dev --recursive             
                 '''
                 }
+                when
+                expression {aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut-d : -f 2) -gt ${SIZE} ]] && \
+                aws s3 rm s3://practica-final-cicd-dev --recursive
         }
 ```
