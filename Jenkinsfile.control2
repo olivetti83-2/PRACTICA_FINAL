@@ -22,7 +22,7 @@ pipeline {
         stage ('Control2 - dev') {
             when {
                 expression { 
-                    sh '(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2) -gt ${TOTAL_SIZE}) ]]'
+                    sh '(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2) -gt ${TOTAL_SIZE} '
                     }
                 }
             steps {
