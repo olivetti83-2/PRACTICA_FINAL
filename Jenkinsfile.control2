@@ -10,7 +10,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = "${env.AWS_CREDENTIALS_PSW}"
         TOTAL_SIZE = 2090000
 
-        ALMACENAMIENTO_1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
+        // ALMACENAMIENTO_1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
 
     }
 
