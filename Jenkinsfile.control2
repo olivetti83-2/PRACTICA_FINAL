@@ -21,8 +21,8 @@ pipeline {
         stage ('Borrar - dev') {
             when {
                 expression {
-                    ALMACENAMIENTO_1="${sh('aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}" && \
-                    "${env.ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"           
+                    ALMACENAMIENTO_1="${sh('aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}" == "${TOTAL_SIZE}"
+                    // "${env.ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"           
                 }
             }
             steps {
