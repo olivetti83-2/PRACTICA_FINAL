@@ -19,15 +19,12 @@ pipeline {
     
     stages { 
         stage ('Prueba') {
-            steps{
+            steps {
                 sh '''
-                    BUCKET_DEV=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)
-                    [[ "${BUCKET_DEV}" -gt ${TOTAL_SIZE} ]] && \
-                    echo "No está lleno"
+                    ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)
+
                 '''
             }
-        }
-        stage ('Borrar - dev') {
             when {
                 expression {
                     "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"           
