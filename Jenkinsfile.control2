@@ -23,12 +23,15 @@ pipeline {
                 sh 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize'
                 }
             }   
-        stage ('Control - dev - full') {
+        stage ('Borrar - dev') {
             when {
-                environment(name: "ALMACENAMIENTO_1", value: "2090000")
+                expression{
+                    "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"
+                }
             }
             steps {
-                sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
+                sh 'aws s3 rm s3://practica-final-cicd-dev --recursive' && \
+                echo 'El bucket-dev se ha borrado porque estaba lleno'
             }
         }
         stage ('Resultado - dev') {
