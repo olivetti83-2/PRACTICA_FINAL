@@ -18,69 +18,53 @@ pipeline {
     // }
     
     stages { 
-        stage ('Variables') {
-            steps {
-                sh 'ALMACENAMIENTO_1=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
-            }
+        stage ('Borrar - dev') {
             when {
-                expression{
-                    ${ALMACENAMIENTO_1} == ${TOTAL_SIZE}
+                expression {
+                    "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"           
                 }
-                steps {
-                    sh '''
-                        aws s3 rm s3://practica-final-cicd-dev --recursive && \
-                        echo "El bucket-dev se ha borrado porque estaba lleno"
-                    '''
-                }
+            }
+            steps {
+                sh '''
+                    aws s3 rm s3://practica-final-cicd-dev --recursive && \
+                    echo "El bucket-dev se ha borrado porque estaba lleno"
+                '''
             }
         }
-        // stage ('Borrar - dev') {
-        //     when {
-        //         expression {
-        //             "${ALMACENAMIENTO_1}" == ${TOTAL_SIZE}           
-        //         }
-        //     }
-        //     steps {
-        //         sh '''
-        //             aws s3 rm s3://practica-final-cicd-dev --recursive && \
-        //             echo "El bucket-dev se ha borrado porque estaba lleno"
-        //         '''
-        //     }
-        // }
-        // stage ('Resultado - dev') {
-        //     when {
-        //         expression { 
-        //             "${ALMACENAMIENTO_1}" != "${TOTAL_SIZE}"
-        //         }
-        //     }
-        //     steps {
-        //         echo 'El bucket-dev tiene ' + "${env.ALMACENAMIENTO_1}" + ' MB,  no está lleno'
-        //     }
-        // }
+        stage ('Resultado - dev') {
+            when {
+                expression { 
+                    "${ALMACENAMIENTO_1}" != "${TOTAL_SIZE}"
+                }
+            }
+            steps {
+                echo 'El bucket-dev tiene ' + "${env.ALMACENAMIENTO_1}" + ' MB,  no está lleno'
+            }
+        }
 
-        // stage ('Borrar - prod') {
-        //     when {
-        //         expression{
-        //             "${ALMACENAMIENTO_2}" == "${TOTAL_SIZE}"
-        //         }
-        //     }
-        //     steps {
-        //         sh '''
-        //             aws s3 rm s3://practica-final-cicd-prod --recursive' && \
-        //             echo 'El bucket-prod se ha borrado porque estaba lleno'
-        //         '''
-        //     }
-        // }
+        stage ('Borrar - prod') {
+            when {
+                expression{
+                    "${ALMACENAMIENTO_2}" == "${TOTAL_SIZE}"
+                }
+            }
+            steps {
+                sh '''
+                    aws s3 rm s3://practica-final-cicd-prod --recursive' && \
+                    echo 'El bucket-prod se ha borrado porque estaba lleno'
+                '''
+            }
+        }
 
-        // stage ('Resultado - prod') {
-        //     when {
-        //         expression { 
-        //             "${ALMACENAMIENTO_2}" != "${TOTAL_SIZE}"
-        //         }
-        //     }
-        //     steps {
-        //         echo 'El bucket-dev tiene ' + "${env.ALMACENAMIENTO_2}" + ' MB,  no está lleno'
-        //     }
-        // }
+        stage ('Resultado - prod') {
+            when {
+                expression { 
+                    "${ALMACENAMIENTO_2}" != "${TOTAL_SIZE}"
+                }
+            }
+            steps {
+                echo 'El bucket-dev tiene ' + "${env.ALMACENAMIENTO_2}" + ' MB,  no está lleno'
+            }
+        }
     }
 }
