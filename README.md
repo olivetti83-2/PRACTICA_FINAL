@@ -71,7 +71,7 @@
             steps {
                 sh '''
                     ALMACENAMIENTO=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2) && \
-                    ${ALMACENAMIENTO} -gt ${SIZE} && \
+                    [[ "${ALMACENAMIENTO}" -gt "${SIZE}" ]] && \
                     aws s3 rm s3://practica-final-cicd-dev --recursive             
                 '''
                 }

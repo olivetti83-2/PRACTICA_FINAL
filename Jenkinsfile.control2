@@ -15,15 +15,18 @@ pipeline {
     //     cron('*/10 * * * *')
     // }
     stages {
-        stage ('Control - dev') {
+        stage ('Control1 - dev') {
             steps {
-                sh 'ALMACENAMIENTO=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
-                script{
-                    if ("$ALMACENAMIENTO" -gt "$SIZE")
-                    run aws s3 rm s3://practica-final-cicd-dev --recursive
+                sh '
+                    ALMACENAMIENTO=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2)'
+            }
+        }
+        stage ('Control2 - dev') {
+            when {
+                    expression { ${ALMACENAMIENTO} -gt ${SIZE} }
                 }
-            
-             
+            steps {
+                sh 'aws s3 rm s3://practica-final-cicd-dev --recursive'
             }
         }
     }      
