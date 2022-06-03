@@ -47,7 +47,7 @@ pipeline {
         }
         stage ('Resultado') {
             when {
-                environment(name: "ALMACENAMIENTO_2", value: "<209000")
+                environment(name: "ALMACENAMIENTO_2", value: <"209000")
             }
             steps {
                 echo 'No has llegado al límite de almacenamiento, por loque no se ha borrado nada'
