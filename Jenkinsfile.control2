@@ -17,7 +17,12 @@ pipeline {
     //     cron('*/10 * * * *')
     // }
     
-    stages {  
+    stages {
+        stage ('Calculando - dev') {
+            steps {
+                ALMACENAMIENTO_1 = "${sh(script: 'aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}"
+                }
+            }   
         stage ('Borrar - dev') {
             when {
                 expression{
@@ -31,7 +36,6 @@ pipeline {
                 '''
             }
         }
-
         stage ('Resultado - dev') {
             when {
                 expression { 
@@ -39,11 +43,11 @@ pipeline {
                 }
             }
             steps {
-                echo 'El bucket-dev tiene' + "${ALMACENAMIENTO_1}" + 'MB,  no está lleno'
+                echo 'El bucket-dev no está lleno'
             }
         }
 
-        stage ('Borrar - prod') {
+        stage ('Borrar - dev') {
             when {
                 expression{
                     "${ALMACENAMIENTO_2}" == "${TOTAL_SIZE}"
