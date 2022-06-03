@@ -30,8 +30,10 @@ pipeline {
                 }
             }
             steps {
-                sh 'aws s3 rm s3://practica-final-cicd-dev --recursive' && \
-                echo 'El bucket-dev se ha borrado porque estaba lleno'
+                sh '''
+                    aws s3 rm s3://practica-final-cicd-dev --recursive' && \
+                    echo 'El bucket-dev se ha borrado porque estaba lleno'
+                '''
             }
         }
         stage ('Resultado - dev') {
