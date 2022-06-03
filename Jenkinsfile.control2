@@ -35,10 +35,12 @@ pipeline {
         stage ('Resultado - dev') {
             when {
                 expression { 
+                    ALMACENAMIENTO_1="${sh('aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}" && \
                     "${env.ALMACENAMIENTO_1}" != "${TOTAL_SIZE}"
                 }
             }
             steps {
+                ALMACENAMIENTO_1="${sh('aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2')}" && \
                 echo 'El bucket-dev tiene ' + "${env.ALMACENAMIENTO_1}" + ' MB,  no está lleno'
             }
         }
