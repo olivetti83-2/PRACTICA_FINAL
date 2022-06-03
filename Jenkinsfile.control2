@@ -18,10 +18,17 @@ pipeline {
     // }
     
     stages { 
+        stage ('Prueba') {
+            sh '''
+                BUCKET_DEV=$(aws s3 ls | grep dev | cut -d " " -f 3)
+                [[ $(aws s3 ls s3://"${BUCKET_DEV}" --recursive --summarize | tail -1 | cut -d : -f 2) -gt ${TOTAL_SIZE} ]] && \
+                echo "No está lleno"
+            '''
+        }
         stage ('Borrar - dev') {
             when {
                 expression {
-                    ${ALMACENAMIENTO_1} == "${TOTAL_SIZE}"           
+                    "${ALMACENAMIENTO_1}" == "${TOTAL_SIZE}"           
                 }
             }
             steps {
