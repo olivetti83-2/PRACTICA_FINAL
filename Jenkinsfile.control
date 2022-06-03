@@ -57,3 +57,4 @@ pipeline {
          
         }
 }
+                echo 'El bucket-dev tiene ' + "${ALMACENAMIENTO_1}" + 'MB,  no está lleno'
