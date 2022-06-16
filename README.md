@@ -53,7 +53,7 @@
     ```
         make all
     ```
-## Archivos proyecto (falta ghactions)
+## Archivos proyecto
  * .github/workflows: Aquí se encuentra el terraform.yaml para desplegar usando ghactions.
  * agents: En esta carpeta se encuentran los agentes de Jenkins:
     - base.Dockerfile: que contiene todo lo necesario: ubuntu, java, openssh...
@@ -64,19 +64,4 @@
  * Jenkinsfiles: Para desplegar con terraform usando Jenkins(Jenkinsfile.despliegue) y para hacer el control de la memoria que usa el bucket de aws(Jenkinsfile.control)
  * Makefile: Para que los desarrolladores puedan desplegar la infraestructura (cambiar a desarrollo, lo tienes en producción)
 
- ## Probando este pipeline en Jenkinsfile.control
 
-```
-        stage ('Control - dev') {
-            steps {
-                sh '''
-                    ALMACENAMIENTO=$(aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut -d : -f 2) && \
-                    [[ "${ALMACENAMIENTO}" -gt "${SIZE}" ]] && \
-                    aws s3 rm s3://practica-final-cicd-dev --recursive             
-                '''
-                }
-                when
-                expression {aws s3 ls s3://practica-final-cicd-dev --recursive --summarize | tail -1 | cut-d : -f 2) -gt ${SIZE} ]] && \
-                aws s3 rm s3://practica-final-cicd-dev --recursive
-        }
-```
